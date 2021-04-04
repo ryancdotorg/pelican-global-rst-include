@@ -3,7 +3,15 @@ Pelican Global RST Include
 
 ``Global RST Include`` is a plugin for `Pelican`_ allowing for the convenient and straight-forward inclusion of global `RST`_ files into every RST article.
 This can make sense for central definitions of, for example, custom code roles, the default code role and abbreviations.
-Refer to `my blog article <https://mhoff.net/article/2016/06/30/global-includes-for-rst/>`_ for further motivation and background.
+
+This plugin was originally written by Michael Hoff, but changes to Pelican’s
+internals caused to stop working at some point. I (Ryan Castellucci) rewrote
+it to be compatible with Pelican 4.x, and it *should* now work as a namespace
+plugin.
+
+The original version worked by wrapping `pelican.readers.RstReader`. This new
+one instead monkey patches `docutils.core.Publisher.set_source` to install
+a wrapper for `docutils.io.FileInput` as the default file reading class.
 
 Usage
 -----
@@ -29,7 +37,7 @@ Your ``pelicanconf.py`` and directory structure could now look like this:
 
     PLUGINS = [
         # other plugins
-        "pelican-global-rst-include"
+        "global_rst_include"
     ]
 
     RST_GLOBAL_INCLUDES = [ "include/globals.rst" ]
